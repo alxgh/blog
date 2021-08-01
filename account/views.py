@@ -1,17 +1,14 @@
-import json
-
 from django.contrib.auth.models import User
 from django.forms import model_to_dict
-from django.http import HttpResponse
 
 # Create your views here.
 from rest_framework import permissions
-from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.permissions import IsOwnerOrReadOnly
+from account.permissions import IsOwnerOrAdmin
 from account.serializers import RegisterSerializer, UserSerializer, UpdateSerializer
 from utils.decorators import validate_serializer_data
 
@@ -42,7 +39,7 @@ class GetUserListAPI(ListAPIView):
 
 
 class FetchUpdateUserAPI(RetrieveAPIView):
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrAdmin]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -56,5 +53,3 @@ class FetchUpdateUserAPI(RetrieveAPIView):
         serializer.is_valid()
 
         return Response(serializer.data)
-
-

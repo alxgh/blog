@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'account.apps.AccountConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
