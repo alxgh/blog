@@ -36,3 +36,21 @@ class Like(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply_to = models.ForeignKey('self', related_name='replies', null=True, blank=True, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, related_name='likes', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'comment_likes'
+
+    def __str__(self):
+        return self.user.username
